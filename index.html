@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Psychic Game</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<head>
+		<meta charset="UTF-8">
+		<title>Psychic Game</title>
+		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	</head>
+	<body style="background-color:#62195B">
+		<div id="game"><center>
+			<h1><font size="6">The Psychic Game</font></h1>
+			<h2>Guess what letter I'm thinking of?</h2>
+			<p><span id="wins">Wins:</span></p>
+			<p><span id="losses">Losses:</span></p>
+			
+			<p><span id="guesses-left">Guesses Left:</span></p>
+			<p><span id="guesses-made">Your Guesses So Far:</span></p>
+			<br>
+			<img src="assets/images/miss-cleo.jpg" alt="Miss Cleo">
+			</center>
+		</div>
+		<script type="text/javascript">
 
-	<script src="assets/javascript/game.js"></script>
-</head>
-<body>
-	<h1>The Psychic Game</h1>
-	<h2>Guess what letter I'm thinking of?</h2>
-	<p><span id="wins">Wins:</span></p>
-	<p><span id="losses">Losses:</span></p>
-	<p><span id="guesses-left">Guesses Left:</span></p>
-	<p><span id="guesses-made">Your Guesses So Far:</span></p>
+		var wins = 0;
+		var losses = 0;
+		var guessesLeft = 9;
+		// array for user's guesses
+		var guessedLetters = [];
+		var userGuess;
+		///Letter choices available
+		var alphabetChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
+		document.onkeyup = function(event) {
+		// String.fromCharCode converts a number into a character from an array
+		var userGuess = event.key;
+		document.getElementById("guesses-made").innerHTML +=  event.key;
+		console.log('event.key: ', event.key);
+		document.getElementById("guesses-left").innerHTML = '<p>Guesses Left: '+guessesLeft+'</p>';
+		// indexOf locates values in an array
+		if (guessedLetters.indexOf(userGuess) < 0 && alphabetChoices.indexOf(userGuess) >= 0) {
+			console.log('inside first if/else');
+		guessedLetters[guessedLetters.length] = userGuess;
+		guessesLeft--;
+		// document.getElementById("guesses-made").innerHTML += event.key;
+		}
 
-
-
-</body>
+		// == checks if a value is equal to another value
+		if (alphabetChoices == guessedLetters) {
+		wins++;
+		document.getElementById("losses").innerHTML += event.key;
+		console.log("Wins: " + wins + " Losses: " + losses + " Guesses Made: " + guesses-made + " guessedLetters " + guessedLetters);
+			}
+		if (guessesLeft == 0) {
+		losses++;
+		guessesLeft = 9;
+		guessedLetters = [];
+		alphabetChoices = alphabetChoices[Math.floor(Math.random() * (alphabetChoices.length))];
+		document.getElementById("guesses-left").innerHTML += event.key;
+		console.log("Wins: " + wins + " Losses: " + losses + " Guesses Made: " + guesses-made + " guessedLetters " + guessedLetters);
+		}
+		};
+		</script>
+		<!-- <script src="assets/javascript/game.js"</script> -->
+	</body>
 </html>
